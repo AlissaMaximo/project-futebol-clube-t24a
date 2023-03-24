@@ -5,8 +5,8 @@ const teamsRouter = Router();
 const teamController = new TeamsController();
 
 teamsRouter.get(
-  '/teams/',
-  teamController.getAll,
+  '/teams',
+  (req, res) => teamController.getAll(req, res),
 );
 teamsRouter.get(
   '/teams/:id',
