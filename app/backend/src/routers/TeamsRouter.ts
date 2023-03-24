@@ -10,7 +10,7 @@ teamsRouter.get(
 );
 teamsRouter.get(
   '/teams/:id',
-  teamController.getById,
+  (req, res) => teamController.getById(req, res),
 );
 
 export default teamsRouter;
