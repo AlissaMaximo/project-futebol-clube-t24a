@@ -4,17 +4,17 @@ import db from '.';
 class LoginModel extends Model {
   declare id: number;
   declare username: string;
+  declare role: string;
   declare email: string;
   declare password: string;
-  declare role: string;
 }
 
 LoginModel.init({
   id: {
     type: INTEGER,
     primaryKey: true,
-    allowNull: false,
     autoIncrement: true,
+    allowNull: false,
   },
   username: {
     type: STRING,
@@ -34,10 +34,9 @@ LoginModel.init({
   },
 }, {
   sequelize: db,
-  modelName: 'User',
-  tableName: 'users',
-  timestamps: false,
   underscored: true,
+  timestamps: false,
+  tableName: 'users',
 });
 
 export default LoginModel;

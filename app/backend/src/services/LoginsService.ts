@@ -2,13 +2,13 @@ import * as bcrypt from 'bcryptjs';
 import { ModelStatic } from 'sequelize';
 import Jwt from '../utils/Jwt';
 import ILogin from '../interfaces/ILogin';
-import LoginModel from '../database/models/LoginModel';
+import UserModel from '../database/models/UserModel';
 
 class LoginsService {
-  protected loginModel: ModelStatic<LoginModel> = LoginModel;
+  protected userModel: ModelStatic<UserModel> = UserModel;
 
   async login({ email, password }: ILogin) {
-    const user = await this.loginModel.findOne({ where: { email } });
+    const user = await this.userModel.findOne({ where: { email } });
 
     if (!user) return undefined;
 
@@ -22,7 +22,7 @@ class LoginsService {
   }
 
   async returnRole(email: string) {
-    const user = await this.loginModel.findOne({ where: { email } });
+    const user = await this.userModel.findOne({ where: { email } });
 
     if (!user) return undefined;
 
