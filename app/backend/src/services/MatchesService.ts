@@ -20,4 +20,15 @@ export default class MatchService {
 
     return result;
   }
+
+  async endMatch(id: number): Promise<boolean> {
+    const [match] = await this.matchModel.update(
+      { inProgress: false },
+      { where: { id } },
+    );
+
+    if (match !== 1) return false;
+
+    return true;
+  }
 }
