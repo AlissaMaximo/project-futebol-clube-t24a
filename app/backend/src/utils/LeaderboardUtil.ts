@@ -1,5 +1,6 @@
 import TeamModel from '../database/models/TeamModel';
 import MatchModel from '../database/models/MatchModel';
+import ILeaderboard from '../interfaces/ILeaderboard';
 
 export default class LeaderboardUtil {
   public matchResults = (matches: MatchModel[], teamGoals: string[]) => {
@@ -37,5 +38,24 @@ export default class LeaderboardUtil {
       goalsBalance: goalsFavor - goalsOwn,
       efficiency: +efficiency,
     };
+  };
+
+  public resolve = (n1: number, n2: number) => {
+    if (n1 > n2) return 1;
+    return -1;
+  };
+
+  public orderRank = (leaderboard: ILeaderboard[]) => {
+    leaderboard.sort((a, b) => {
+      if (b.totalPoints !== a.totalPoints) return this.resolve(b.totalPoints, a.totalPoints);
+      if (b.totalVictories !== a.totalVictories) {
+        return this.resolve(b.totalVictories, a.totalVictories);
+      }
+      if (b.goalsBalance !== a.goalsBalance) return this.resolve(b.goalsBalance, a.goalsBalance);
+      if (b.goalsFavor !== a.goalsFavor) return this.resolve(b.goalsFavor, a.goalsFavor);
+      return this.resolve(b.goalsOwn, a.goalsOwn);
+    });
+
+    return leaderboard;
   };
 }
