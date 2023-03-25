@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import TeamsService from '../services/TeamsService';
 
 export default class TeamsController {
-  // private _teamService: TeamsService = new TeamsService();
   constructor(private _teamsService = new TeamsService()) {}
 
   public async getAll(_req: Request, res: Response): Promise<Response> {
