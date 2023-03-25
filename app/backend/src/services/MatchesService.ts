@@ -1,23 +1,19 @@
-/* import { ModelStatic } from 'sequelize';
+import { ModelStatic } from 'sequelize';
 import TeamModel from '../database/models/TeamModel';
-import Match from '../database/models/MatchModel';
+import MatchModel from '../database/models/MatchModel';
 
 export default class MatchService {
-  protected matchModel : ModelStatic<Match> = Match;
+  protected matchModel : ModelStatic<MatchModel> = MatchModel;
   protected teamModel : ModelStatic<TeamModel> = TeamModel;
 
-  async getAll(): Promise<Match[]> {
+  async getAll(): Promise<MatchModel[]> {
     const result = await this.matchModel.findAll({
-      attributes: {
-        exclude: ['home_team_id', 'away_team_id'],
-      },
       include: [
-        { model: TeamModel, as: 'homeTeam', attributes: { exclude: ['id'] } },
-        { model: TeamModel, as: 'awayTeam', attributes: { exclude: ['id'] } },
+        { model: TeamModel, as: 'homeTeam', attributes: ['teamName'] },
+        { model: TeamModel, as: 'awayTeam', attributes: ['teamName'] },
       ],
     });
 
     return result;
   }
 }
- */
