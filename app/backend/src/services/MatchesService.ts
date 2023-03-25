@@ -1,6 +1,7 @@
 import { ModelStatic } from 'sequelize';
 import TeamModel from '../database/models/TeamModel';
 import MatchModel from '../database/models/MatchModel';
+import IMatchResults from '../interfaces/IMatchResults';
 
 export default class MatchService {
   protected matchModel : ModelStatic<MatchModel> = MatchModel;
@@ -30,5 +31,15 @@ export default class MatchService {
     if (match !== 1) return false;
 
     return true;
+  }
+
+  public async updateMatch(id: number, matchResults: IMatchResults): Promise<MatchModel> {
+    const { homeTeamGoals, awayTeamGoals } = matchResults;
+
+    await this.matchModel.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+
+    const updatedMatch = await this.matchModel.findOne({ where: { id } });
+
+    return updatedMatch as MatchModel;
   }
 }
