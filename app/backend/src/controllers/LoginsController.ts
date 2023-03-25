@@ -8,18 +8,18 @@ class LoginsController {
     const { email, password } = req.body;
     const token = await this._service.login({ email, password });
 
-    if (!token) res.status(401).json({ message: 'Invalid email or password' });
+    if (!token) return res.status(401).json({ message: 'Invalid email or password' });
 
-    res.status(200).json(token);
+    return res.status(200).json(token);
   }
 
   async returnRole(_req: Request, res: Response) {
     const { email } = res.locals.token;
     const result = await this._service.returnRole(email);
 
-    if (!result) res.status(401).json({ message: 'Invalid email or password' });
+    if (!result) return res.status(401).json({ message: 'Invalid email or password' });
 
-    res.status(200).json({ role: result });
+    return res.status(200).json({ role: result });
   }
 }
 

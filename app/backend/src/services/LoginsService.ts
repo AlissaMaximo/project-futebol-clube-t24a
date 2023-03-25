@@ -3,11 +3,12 @@ import { ModelStatic } from 'sequelize';
 import Jwt from '../utils/Jwt';
 import ILogin from '../interfaces/ILogin';
 import UserModel from '../database/models/UserModel';
+import IToken from '../interfaces/IToken';
 
 class LoginsService {
   protected userModel: ModelStatic<UserModel> = UserModel;
 
-  async login({ email, password }: ILogin) {
+  async login({ email, password }: ILogin): Promise<IToken | undefined> {
     const user = await this.userModel.findOne({ where: { email } });
 
     if (!user) return undefined;
@@ -21,7 +22,7 @@ class LoginsService {
     return { token };
   }
 
-  async returnRole(email: string) {
+  async returnRole(email: string): Promise<string | undefined> {
     const user = await this.userModel.findOne({ where: { email } });
 
     if (!user) return undefined;

@@ -7,7 +7,8 @@ function validateToken(req: Request, res: Response, next: NextFunction) {
   if (!authorization) return res.status(401).json({ message: 'Token not found' });
 
   try {
-    res.locals.token = Jwt.verifyToken(authorization);
+    const verification = Jwt.verifyToken(authorization);
+    res.locals.token = verification;
 
     next();
   } catch (error) {
