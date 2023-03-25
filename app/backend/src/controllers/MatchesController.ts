@@ -32,14 +32,14 @@ export default class MatchesController {
 
     if (homeTeamId === awayTeamId) {
       return res.status(422)
-        .json({ message: 'It\'s impossible to create a match with two same teams' });
+        .json({ message: 'It is not possible to create a match with two equal teams' });
     }
 
     const result = await this._matchService
       .createMatch(homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals);
 
     if (result === false) {
-      return res.status(404).json({ message: 'No team with this id.' });
+      return res.status(404).json({ message: 'There is no team with such id!' });
     }
 
     return res.status(201).json(result);
