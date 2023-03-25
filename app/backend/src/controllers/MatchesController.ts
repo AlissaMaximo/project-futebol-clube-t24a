@@ -26,4 +26,22 @@ export default class MatchesController {
 
     return res.status(200).json(updatedMatch);
   }
+
+  public async createMatch(req: Request, res: Response): Promise<Response> {
+    const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = req.body;
+
+    if (homeTeamId === awayTeamId) {
+      return res.status(422)
+        .json({ message: 'It\'s impossible to create a match with two same teams' });
+    }
+
+    const result = await this._matchService
+      .createMatch(homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals);
+
+    if (result === false) {
+      return res.status(404).json({ message: 'No team with this id.' });
+    }
+
+    return res.status(201).json(result);
+  }
 }

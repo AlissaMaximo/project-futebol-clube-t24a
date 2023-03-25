@@ -42,4 +42,21 @@ export default class MatchService {
 
     return updatedMatch as MatchModel;
   }
+
+  public async createMatch(
+    homeTeamId: number,
+    awayTeamId: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ): Promise <MatchModel | boolean> {
+    const findHomeTeamId = await this.matchModel.findOne({ where: { homeTeamId } });
+    const findAwayTeamId = await this.matchModel.findOne({ where: { awayTeamId } });
+
+    if (!findAwayTeamId || !findHomeTeamId) return false;
+
+    const newMatch = await this.matchModel
+      .create({ homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals, inProgress: true });
+
+    return newMatch;
+  }
 }

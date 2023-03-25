@@ -19,5 +19,10 @@ matchesRouter.patch(
   validateToken,
   (req, res) => matchController.updateMatch(req, res),
 );
+matchesRouter.post(
+  '/matches',
+  validateToken,
+  (req, res) => matchController.createMatch(req, res),
+);
 
 export default matchesRouter;
