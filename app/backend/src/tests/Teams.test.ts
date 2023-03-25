@@ -15,49 +15,19 @@ describe('Fluxo Team', () => {
       sinon.restore();
     });
 
-    it('getAll: Service', async () => {
+    it('getAll', async () => {
+      const getTeamsResult = await chai.request(app).get('/teams');
 
-      const teams :TeamModel[] = [ new TeamModel({ id: 1, teamName: 'TimeDoTeste' }) ];
-      const teamService = new TeamsService();
-      const result = await teamService.getAll();
-
-      sinon.stub(TeamModel, 'findAll').resolves(teams);
-
-      expect(result).to.be.deep.eq(teams);
-      expect(result.length).to.be.eq(1);
-      expect(result).to.be.an('array');
+      expect(getTeamsResult.status).to.be.equal(200);
+      expect(getTeamsResult.body.length).to.be.equal(16);
+      expect(getTeamsResult.body).to.be.an('array');
   });
 
-    it('getById: Service', async () => {
-    const teams :TeamModel = new TeamModel({ id: 1, teamName: 'TimeDoTeste' });
-    const teamService = new TeamsService();
-    const result = await teamService.getById(1);
+    it('getById', async () => {
+    const getTeamResult = await chai.request(app).get('/teams/3');
 
-    sinon.stub(TeamModel, 'findByPk').resolves(teams);
-
-    expect(result).to.be.deep.eq(teams);
-    expect(result).to.be.an('object');
-  });
-
-    it('getAll: Controller', async () => {
-    const teams :TeamModel[] = [ new TeamModel({ id: 1, teamName: 'TimeDoTeste' }) ];
-    const result = await chai.request(app).get('/teams');
-
-    sinon.stub(TeamModel, 'findAll').resolves(teams);
-
-    expect(result).to.be.an('object');
-    expect(result.body).to.be.an('array');
-    expect(result.body).to.be.deep.eq(teams.map((team) => team.dataValues));
-  });
-
-    it('getById: Controller', async () => {
-    const teams :TeamModel = new TeamModel({ id: 1, teamName: 'TimeDoTeste' });
-    const result = await chai.request(app).get('/teams/1');
-
-    sinon.stub(TeamModel, 'findByPk').resolves(teams);
-
-    expect(result).to.be.an('object');
-    expect(result.body).to.be.an('object');
-    expect(result.body).to.be.deep.eq(teams.dataValues);
+    expect(getTeamResult.status).to.be.equal(200);
+    expect(getTeamResult.body).to.be.an('object');
+    expect(getTeamResult.body).to.eql({ id: 3, teamName: "Botafogo" })
   });
 });
