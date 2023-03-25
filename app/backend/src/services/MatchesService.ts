@@ -6,13 +6,17 @@ export default class MatchService {
   protected matchModel : ModelStatic<MatchModel> = MatchModel;
   protected teamModel : ModelStatic<TeamModel> = TeamModel;
 
-  async getAll(): Promise<MatchModel[]> {
+  public async getAll(inProgress?: string): Promise<MatchModel[]> {
     const result = await this.matchModel.findAll({
       include: [
         { model: TeamModel, as: 'homeTeam', attributes: ['teamName'] },
         { model: TeamModel, as: 'awayTeam', attributes: ['teamName'] },
       ],
     });
+
+    if (inProgress) {
+      return result.filter((match) => String(match.inProgress) === inProgress);
+    }
 
     return result;
   }
